@@ -56,6 +56,15 @@ export function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-2">
+                {/* YouTube channel link */}
+                <a href="https://youtube.com/@beema_sahayatalifehealthvehicl?si=6LkLGtg8ThezXs2Z" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-blue-100 hover:text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor" aria-hidden>
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2C0 8 0 12 0 12s0 4 0.5 5.8a3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 16 24 12 24 12s0-4-.5-5.8zM9.6 15.6V8.4l6.4 3.6-6.4 3.6z" />
+                  </svg>
+                  <span className="text-sm">YouTube</span>
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
                 {/* Telegram invite link */}
                 <a href="https://t.me/+SFEVZ1iVVpQ4ZjU1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-blue-100 hover:text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" className="w-4 h-4" fill="currentColor" aria-hidden>
