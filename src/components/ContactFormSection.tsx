@@ -26,15 +26,36 @@ export function ContactFormSection() {
     // Prepare payload
     const payload = { ...formData, submittedAt: new Date().toISOString() };
 
-    // Vite env variables should be prefixed with VITE_
-    const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL as string | undefined;
+  // Vite env variables should be prefixed with VITE_
+  const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL as string | undefined;
     const OWNER_EMAIL = import.meta.env.VITE_OWNER_EMAIL as string | undefined; // fallback
     const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined; // international number, e.g. 919999888777
     const WHATSAPP_GROUP = import.meta.env.VITE_WHATSAPP_GROUP_URL as string | undefined; // group invite link
 
+  // New: local/server API
+  const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:4000';
+
     let sent = false;
 
-    if (WEBHOOK_URL) {
+    // Try server API first (recommended) then fallback to configured webhook
+    if (API_BASE) {
+      try {
+        const res = await fetch(`${API_BASE.replace(/\/$/, '')}/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          sent = true;
+        } else {
+          console.warn('API responded with non-OK status', res.status);
+        }
+      } catch (err) {
+        console.warn('Server API send error', err);
+      }
+    }
+
+    if (!sent && WEBHOOK_URL) {
       try {
         const res = await fetch(WEBHOOK_URL, {
           method: "POST",
@@ -52,7 +73,7 @@ export function ContactFormSection() {
       }
     }
 
-    // Fallback: open mailto for owner email if webhook not configured or failed
+  // Fallback: open mailto for owner email if API/webhook not configured or failed
     // Try EmailJS if configured (client-side email service)
     const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
     const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
